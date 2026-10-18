@@ -8,10 +8,10 @@ Windows에서 처음 시작한다면 [WSL + Docker Engine 설치 안내](WSL.md)
 
 - Docker가 실행 중이어야 합니다.
 - Docker에 메모리 6GB 이상을 할당하고 디스크 여유 공간 25GB 이상을 준비합니다.
-- 강의 이미지: `kimc1992/kube-comic-lab:0.0.2`. 강사가 새 버전을 안내하면 태그를 변경합니다.
+- 강의 이미지: `kimc1992/kube-comic-lab:0.0.3`. 강사가 새 버전을 안내하면 태그를 변경합니다.
 
 ```bash
-IMAGE='kimc1992/kube-comic-lab:0.0.2'
+IMAGE='kimc1992/kube-comic-lab:0.0.3'
 sudo docker pull "$IMAGE"
 ```
 
@@ -146,9 +146,9 @@ sudo docker stats --no-stream kcna-lab
 
 클러스터 준비 오류는 로그를 강사에게 전달하세요. 문의할 때는 사용한 이미지 태그, 운영체제, 위 진단 로그를 함께 전달해 주세요. 비밀번호·토큰 등은 지운 뒤 공유하세요.
 
-## 구버전 GitOps 서버 정리 (0.0.1 → 0.0.2)
+## 구버전 GitOps 서버 정리 (0.0.1 → 0.0.3)
 
-0.0.2는 Argo CD·Redis·Gitea를 받거나 설치하지 않습니다. 다만 구버전 볼륨을 재사용하면 기존 서버가 클러스터에 남아 실행될 수 있습니다. 새 이미지로 컨테이너를 교체한 뒤 아래 명령을 **원할 때 한 번** 실행합니다.
+0.0.3는 Argo CD·Redis·Gitea를 받거나 설치하지 않습니다. 다만 구버전 볼륨을 재사용하면 기존 서버가 클러스터에 남아 실행될 수 있습니다. 새 이미지로 컨테이너를 교체한 뒤 아래 명령을 **원할 때 한 번** 실행합니다.
 
 ```bash
 sudo docker exec kcna-lab kcna-addon retire-gitops
