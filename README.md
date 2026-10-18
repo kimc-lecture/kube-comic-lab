@@ -6,6 +6,7 @@
 
 - Docker 이미지: `kimc1992/kube-comic-lab:0.0.1`
 - 전체 실행·종료·정리 안내: [USER.md](USER.md)
+- Windows 처음 준비하기: [WSL 설치 안내](WSL.md)
 - 기본 언어: 한국어. 상단에서 주요 UI를 영어로 전환할 수 있습니다.
 
 ## 준비 사항
