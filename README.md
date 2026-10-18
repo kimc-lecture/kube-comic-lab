@@ -4,11 +4,13 @@
 
 이 저장소는 **수강생을 위한 공개 안내 저장소**입니다. 소스 코드를 빌드할 필요 없이 Docker Hub의 이미지를 받아 실행합니다.
 
-- Docker 이미지: `kimc1992/kube-comic-lab:0.0.1`
+- Docker 이미지: `kimc1992/kube-comic-lab:0.0.2`
 - 전체 실행·종료·정리 안내: [USER.md](USER.md)
 - Windows 처음 준비하기: [WSL + Docker Engine 설치 안내](WSL.md)
 - 회사 네트워크: [사내 CA 인증서·프록시 안내](CORPORATE-CA.md)
 - 기본 언어: 한국어. 상단에서 주요 UI를 영어로 전환할 수 있습니다.
+
+14화는 추가 서버 없이 **로컬 Git + Kustomize 배포**로 진행합니다. Argo CD·Redis·Gitea는 다운로드하거나 실행하지 않으며, GitOps의 자동 조정 원리는 별도로 설명합니다.
 
 ## 준비 사항
 
@@ -21,14 +23,15 @@ Windows에서는 WSL 2의 Ubuntu에 Docker Engine을 설치하면 됩니다. Doc
 ## 시작하기
 
 ```bash
-sudo docker pull kimc1992/kube-comic-lab:0.0.1
+sudo docker pull kimc1992/kube-comic-lab:0.0.2
 sudo docker run -d --name kcna-lab --privileged --restart unless-stopped \
   -v kcna-lab-docker:/var/lib/docker \
   -v kcna-lab-home:/root \
   -p 127.0.0.1:8085:7680 \
   -p 127.0.0.1:7681:7681 \
-  -p 127.0.0.1:30080-30083:30080-30083 \
-  kimc1992/kube-comic-lab:0.0.1
+  -p 127.0.0.1:30080:30080 \
+  -p 127.0.0.1:30083:30083 \
+  kimc1992/kube-comic-lab:0.0.2
 ```
 
 브라우저에서 **http://127.0.0.1:8085**을 엽니다. 처음에는 클러스터와 공용 환경 준비에 몇 분 걸립니다. `클러스터 Ready`가 표시되면 첫 챕터부터 시작하세요. 챕터별 과제는 자동으로 준비됩니다.
@@ -56,7 +59,7 @@ sudo docker stop -t 30 kcna-lab
 sudo docker rm kcna-lab
 sudo docker volume rm kcna-lab-home kcna-lab-docker
 # 배포 이미지도 삭제하려면
-sudo docker image rm kimc1992/kube-comic-lab:0.0.1
+sudo docker image rm kimc1992/kube-comic-lab:0.0.2
 ```
 
 컨테이너만 삭제하거나 버전을 업데이트하며 데이터를 보존하는 방법은 [USER.md](USER.md)를 확인하세요.
@@ -68,7 +71,7 @@ sudo docker image rm kimc1992/kube-comic-lab:0.0.1
 | 입사 첫 주 | 클러스터, 컨테이너와 이미지, Pod |
 | 런칭 준비 | Deployment, Service, Ingress, ConfigMap·Secret, Storage |
 | 운영의 맛 | Scheduling, Probe·HPA, RBAC·보안, 트러블슈팅 |
-| 배포 자동화 | Kustomize, Helm, GitOps·Argo CD |
+| 배포 자동화 | Kustomize, Helm, Git 기록·배포, GitOps 원리 |
 | 수료식 | 종합 평가 |
 
 ## 접속 주소
@@ -76,8 +79,6 @@ sudo docker image rm kimc1992/kube-comic-lab:0.0.1
 | 서비스 | 주소 |
 |---|---|
 | 강의 포털 | http://127.0.0.1:8085 |
-| Argo CD | http://localhost:30081 |
-| Gitea | http://localhost:30082 |
 
 실습 앱과 Ingress 주소는 해당 챕터에서 안내합니다. 사내 인증서 설정과 오류 진단은 [USER.md](USER.md)를 확인하세요.
 

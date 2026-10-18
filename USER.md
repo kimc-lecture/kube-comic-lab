@@ -8,10 +8,10 @@ Windows에서 처음 시작한다면 [WSL + Docker Engine 설치 안내](WSL.md)
 
 - Docker가 실행 중이어야 합니다.
 - Docker에 메모리 6GB 이상을 할당하고 디스크 여유 공간 25GB 이상을 준비합니다.
-- 강의 이미지: `kimc1992/kube-comic-lab:0.0.1`. 강사가 새 버전을 안내하면 태그를 변경합니다.
+- 강의 이미지: `kimc1992/kube-comic-lab:0.0.2`. 강사가 새 버전을 안내하면 태그를 변경합니다.
 
 ```bash
-IMAGE='kimc1992/kube-comic-lab:0.0.1'
+IMAGE='kimc1992/kube-comic-lab:0.0.2'
 sudo docker pull "$IMAGE"
 ```
 
@@ -25,11 +25,12 @@ sudo docker run -d --name kcna-lab --privileged --restart unless-stopped \
   -v kcna-lab-home:/root \
   -p 127.0.0.1:8085:7680 \
   -p 127.0.0.1:7681:7681 \
-  -p 127.0.0.1:30080-30083:30080-30083 \
+  -p 127.0.0.1:30080:30080 \
+  -p 127.0.0.1:30083:30083 \
   "$IMAGE"
 ```
 
-브라우저에서 **http://127.0.0.1:8085**을 엽니다. 최초 실행에서는 실습 이미지와 Ingress·metrics-server·Gitea·Argo CD를 한 번에 준비합니다. 인터넷이 필요하고 다운로드와 설치에 몇 분 걸릴 수 있습니다. 준비 완료 후에는 챕터를 열면 해당 과제의 파일·리소스가 자동으로 준비되므로 세팅 버튼을 따로 누르지 않습니다. 다음 실행부터는 저장된 캐시와 정상 공용 구성요소를 재사용합니다.
+브라우저에서 **http://127.0.0.1:8085**을 엽니다. 최초 실행에서는 실습 이미지와 Ingress·metrics-server를 한 번에 준비합니다. 인터넷이 필요하고 다운로드와 설치에 몇 분 걸릴 수 있습니다. 준비 완료 후에는 챕터를 열면 해당 과제의 파일·리소스가 자동으로 준비되므로 세팅 버튼을 따로 누르지 않습니다. 다음 실행부터는 저장된 캐시와 정상 공용 구성요소를 재사용합니다.
 
 `--privileged`는 내부 실습 클러스터 실행에 필요합니다. 웹 터미널은 인증 없는 root 셸이므로 포트는 위 예제처럼 **127.0.0.1에 바인딩**해서 사용하세요.
 
@@ -124,7 +125,7 @@ sudo docker image rm "$IMAGE"
 ## 7. 새 버전으로 업데이트
 
 ```bash
-IMAGE='kimc1992/kube-comic-lab:0.0.2' # 강사가 안내한 새 버전으로 변경
+IMAGE='kimc1992/kube-comic-lab:0.0.3' # 강사가 안내한 새 버전으로 변경
 sudo docker pull "$IMAGE"
 sudo docker stop -t 30 kcna-lab
 sudo docker rm kcna-lab
@@ -144,3 +145,13 @@ sudo docker stats --no-stream kcna-lab
 ```
 
 클러스터 준비 오류는 로그를 강사에게 전달하세요. 문의할 때는 사용한 이미지 태그, 운영체제, 위 진단 로그를 함께 전달해 주세요. 비밀번호·토큰 등은 지운 뒤 공유하세요.
+
+## 구버전 GitOps 서버 정리 (0.0.1 → 0.0.2)
+
+0.0.2는 Argo CD·Redis·Gitea를 받거나 설치하지 않습니다. 다만 구버전 볼륨을 재사용하면 기존 서버가 클러스터에 남아 실행될 수 있습니다. 새 이미지로 컨테이너를 교체한 뒤 아래 명령을 **원할 때 한 번** 실행합니다.
+
+```bash
+sudo docker exec kcna-lab kcna-addon retire-gitops
+```
+
+이 명령은 구버전 `argocd`, `gitea`, `nyang-dev`, `nyang-prod` 네임스페이스를 삭제합니다. Gitea 서버 안의 저장소도 삭제되므로 필요한 기록은 먼저 보관하세요. 로컬 작업 폴더·다른 챕터·두 볼륨은 유지합니다. 예전에 다운로드한 이미지는 캐시에 남으며 자동으로 지우지 않습니다. 14화의 새 작업 폴더는 `~/nyang-release`입니다.

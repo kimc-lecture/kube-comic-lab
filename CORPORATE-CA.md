@@ -41,7 +41,7 @@ sudo install -m 0644 "$HOME/certs/corp-ca.crt" /usr/local/share/ca-certificates/
 sudo update-ca-certificates
 # Docker 설치 전이라면 재시작은 생략하고 WSL 안내의 설치 단계로 돌아갑니다.
 sudo systemctl restart docker
-sudo docker pull kimc1992/kube-comic-lab:0.0.1
+sudo docker pull kimc1992/kube-comic-lab:0.0.2
 ```
 
 다른 CA 파일도 같은 방법으로 등록합니다. Docker 재시작은 실행 중인 다른 컨테이너에도 영향을 줄 수 있습니다.
@@ -59,8 +59,9 @@ sudo docker run -d --name kcna-lab --privileged --restart unless-stopped \
   -v kcna-lab-home:/root \
   -p 127.0.0.1:8085:7680 \
   -p 127.0.0.1:7681:7681 \
-  -p 127.0.0.1:30080-30083:30080-30083 \
-  kimc1992/kube-comic-lab:0.0.1
+  -p 127.0.0.1:30080:30080 \
+  -p 127.0.0.1:30083:30083 \
+  kimc1992/kube-comic-lab:0.0.2
 ```
 
 기동 시 `.crt`·`.pem`·`.cer` 파일을 읽고 내부 Docker가 다운로드하기 전에 CA를 등록합니다. 인증서는 로컬 컨테이너에 적용되며 Docker Hub 원본 이미지에 업로드되지 않습니다. CA를 변경하면 컨테이너를 재시작해 다시 읽게 합니다.
@@ -92,7 +93,7 @@ sudo docker exec kcna-lab tail -50 /var/log/kcna/provision.log
 
 명시적 프록시가 필수라면 Ubuntu의 패키지 다운로드·호스트 Docker 데몬·강의 컨테이너 내부 Docker에 각각 설정이 필요합니다. 호스트 Docker는 [공식 프록시 설정](https://docs.docker.com/engine/daemon/proxy/)을 따릅니다. 강의 컨테이너는 `docker run`에 `-e HTTP_PROXY=...`, `-e HTTPS_PROXY=...`, `-e NO_PROXY=...`를 추가할 수 있습니다. 내부 Docker와 kind 노드가 직접 통신하도록 localhost·내부 서비스 이름·실제 Docker/kind/Pod/Service 주소 범위를 프록시 예외에 포함해야 합니다. 주소와 인증 방식은 회사 담당자에게 확인하세요. CA 마운트만으로 모든 프록시 환경에서 동작한다고 보장하지는 않습니다.
 
-준비 중 접근하는 주요 레지스트리는 `docker.io`(Docker Hub), `registry.k8s.io`, `quay.io`입니다. 인증·이미지 저장소의 리다이렉트 주소도 허용이 필요할 수 있습니다. Docker 설치에는 Ubuntu 패키지 저장소와 `download.docker.com` 접근도 필요합니다.
+준비 중 접근하는 주요 레지스트리는 `docker.io`(Docker Hub), `registry.k8s.io`입니다. 인증·이미지 저장소의 리다이렉트 주소도 허용이 필요할 수 있습니다. Docker 설치에는 Ubuntu 패키지 저장소와 `download.docker.com` 접근도 필요합니다.
 
 회사 Docker Hub 미러가 있다면 `docker run`에 `-e KCNA_REGISTRY_MIRROR=https://미러주소`를 추가할 수 있습니다. 이 옵션은 **강의 컨테이너 내부 Docker의 Docker Hub 다운로드용**이며, 호스트의 강의 이미지 다운로드나 다른 레지스트리를 모두 대체하지 않습니다.
 
