@@ -2,7 +2,7 @@
 
 소스 코드나 빌드 도구를 설치할 필요가 없습니다. 강사가 Docker Hub에 배포한 이미지를 다운로드해 실행합니다. 아래 명령은 Linux 터미널 기준입니다. Docker Desktop 등에서 `sudo`가 필요하지 않으면 빼고 실행하세요. Windows에서는 WSL2의 Linux 터미널을 사용하면 아래 명령을 그대로 따라갈 수 있습니다.
 
-Windows에서 처음 시작한다면 [WSL 설치 안내](WSL.md)를 먼저 따라 하세요.
+Windows에서 처음 시작한다면 [WSL + Docker Engine 설치 안내](WSL.md)를 먼저 따라 하세요. Docker Desktop은 필수가 아닙니다. 사내망의 인증서 오류·프록시 설정은 [사내 CA 안내](CORPORATE-CA.md)를 확인하세요.
 
 ## 1. 준비
 
@@ -32,6 +32,8 @@ sudo docker run -d --name kcna-lab --privileged --restart unless-stopped \
 브라우저에서 **http://localhost:7680**을 엽니다. 최초 실행에서는 실습 이미지와 Ingress·metrics-server·Gitea·Argo CD를 한 번에 준비합니다. 인터넷이 필요하고 다운로드와 설치에 몇 분 걸릴 수 있습니다. 준비 완료 후에는 챕터를 열면 해당 과제의 파일·리소스가 자동으로 준비되므로 세팅 버튼을 따로 누르지 않습니다. 다음 실행부터는 저장된 캐시와 정상 공용 구성요소를 재사용합니다.
 
 `--privileged`는 내부 실습 클러스터 실행에 필요합니다. 웹 터미널은 인증 없는 root 셸이므로 포트는 위 예제처럼 **127.0.0.1에 바인딩**해서 사용하세요.
+
+사내 CA는 **호스트의 이미지 다운로드와 컨테이너 내부 다운로드 양쪽**에 필요할 수 있습니다. [사내 CA 설정 전체 안내](CORPORATE-CA.md)를 먼저 확인하세요.
 
 사내 인증서가 필요하면 위 `docker run` 명령의 `"$IMAGE"` 앞에 다음 옵션을 추가합니다.
 

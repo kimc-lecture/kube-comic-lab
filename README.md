@@ -6,12 +6,15 @@
 
 - Docker 이미지: `kimc1992/kube-comic-lab:0.0.1`
 - 전체 실행·종료·정리 안내: [USER.md](USER.md)
-- Windows 처음 준비하기: [WSL 설치 안내](WSL.md)
+- Windows 처음 준비하기: [WSL + Docker Engine 설치 안내](WSL.md)
+- 회사 네트워크: [사내 CA 인증서·프록시 안내](CORPORATE-CA.md)
 - 기본 언어: 한국어. 상단에서 주요 UI를 영어로 전환할 수 있습니다.
 
 ## 준비 사항
 
 Docker가 실행 중이어야 합니다. Docker에 CPU 2코어 이상(권장 4코어), 메모리 6GB 이상(권장 8GB), 디스크 여유 25GB 이상을 준비하세요. 최초 준비에는 인터넷이 필요합니다.
+
+Windows에서는 WSL 2의 Ubuntu에 Docker Engine을 설치하면 됩니다. Docker Desktop은 필수가 아닙니다. 사내 인증서 오류가 발생한다면 [CA 설정](CORPORATE-CA.md)을 먼저 적용하세요.
 
 아래 명령은 Linux 또는 Windows WSL2의 Bash 터미널 기준입니다. Docker Desktop 등에서 `sudo`가 필요 없다면 빼고 실행하세요. 현재 배포 검증 대상은 Linux amd64이며 다른 환경의 검증 결과는 추후 안내합니다.
 
