@@ -4,7 +4,7 @@
 
 이 저장소는 **수강생을 위한 공개 안내 저장소**입니다. 소스 코드를 빌드할 필요 없이 Docker Hub의 이미지를 받아 실행합니다.
 
-- Docker 이미지: `kimc1992/kube-comic-lab:0.0.3`
+- Docker 이미지: `kimc1992/kube-comic-lab:0.0.4`
 - 전체 실행·종료·정리 안내: [USER.md](USER.md)
 - Windows 처음 준비하기: [WSL + Docker Engine 설치 안내](WSL.md)
 - 회사 네트워크: [사내 CA 인증서·프록시 안내](CORPORATE-CA.md)
@@ -23,7 +23,7 @@ Windows에서는 WSL 2의 Ubuntu에 Docker Engine을 설치하면 됩니다. Doc
 ## 시작하기
 
 ```bash
-sudo docker pull kimc1992/kube-comic-lab:0.0.3
+sudo docker pull kimc1992/kube-comic-lab:0.0.4
 sudo docker run -d --name kcna-lab --privileged --restart unless-stopped \
   -v kcna-lab-docker:/var/lib/docker \
   -v kcna-lab-home:/root \
@@ -31,7 +31,7 @@ sudo docker run -d --name kcna-lab --privileged --restart unless-stopped \
   -p 127.0.0.1:7681:7681 \
   -p 127.0.0.1:30080:30080 \
   -p 127.0.0.1:30083:30083 \
-  kimc1992/kube-comic-lab:0.0.3
+  kimc1992/kube-comic-lab:0.0.4
 ```
 
 브라우저에서 **http://127.0.0.1:8085**을 엽니다. 처음에는 클러스터와 공용 환경 준비에 몇 분 걸립니다. `클러스터 Ready`가 표시되면 첫 챕터부터 시작하세요. 챕터별 과제는 자동으로 준비됩니다.
@@ -59,7 +59,7 @@ sudo docker stop -t 30 kcna-lab
 sudo docker rm kcna-lab
 sudo docker volume rm kcna-lab-home kcna-lab-docker
 # 배포 이미지도 삭제하려면
-sudo docker image rm kimc1992/kube-comic-lab:0.0.3
+sudo docker image rm kimc1992/kube-comic-lab:0.0.4
 ```
 
 컨테이너만 삭제하거나 버전을 업데이트하며 데이터를 보존하는 방법은 [USER.md](USER.md)를 확인하세요.

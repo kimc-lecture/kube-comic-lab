@@ -41,7 +41,7 @@ sudo install -m 0644 "$HOME/certs/corp-ca.crt" /usr/local/share/ca-certificates/
 sudo update-ca-certificates
 # Docker 설치 전이라면 재시작은 생략하고 WSL 안내의 설치 단계로 돌아갑니다.
 sudo systemctl restart docker
-sudo docker pull kimc1992/kube-comic-lab:0.0.3
+sudo docker pull kimc1992/kube-comic-lab:0.0.4
 ```
 
 다른 CA 파일도 같은 방법으로 등록합니다. Docker 재시작은 실행 중인 다른 컨테이너에도 영향을 줄 수 있습니다.
@@ -61,7 +61,7 @@ sudo docker run -d --name kcna-lab --privileged --restart unless-stopped \
   -p 127.0.0.1:7681:7681 \
   -p 127.0.0.1:30080:30080 \
   -p 127.0.0.1:30083:30083 \
-  kimc1992/kube-comic-lab:0.0.3
+  kimc1992/kube-comic-lab:0.0.4
 ```
 
 기동 시 `.crt`·`.pem`·`.cer` 파일을 읽고 내부 Docker가 다운로드하기 전에 CA를 등록합니다. 인증서는 로컬 컨테이너에 적용되며 Docker Hub 원본 이미지에 업로드되지 않습니다. CA를 변경하면 컨테이너를 재시작해 다시 읽게 합니다.
@@ -97,6 +97,6 @@ sudo docker exec kcna-lab tail -50 /var/log/kcna/provision.log
 
 회사 Docker Hub 미러가 있다면 `docker run`에 `-e KCNA_REGISTRY_MIRROR=https://미러주소`를 추가할 수 있습니다. 이 옵션은 **강의 컨테이너 내부 Docker의 Docker Hub 다운로드용**이며, 호스트의 강의 이미지 다운로드나 다른 레지스트리를 모두 대체하지 않습니다.
 
-외부 인터넷이 완전히 차단되면 강사에게 **오프라인 번들 이미지**를 요청하세요. 기본 태그 `0.0.3`은 첫 기동 때 인터넷에서 실습 이미지를 다운로드합니다. 오프라인 배포본의 제공 여부와 해당 환경의 검증 결과는 별도로 확인해야 합니다.
+외부 인터넷이 완전히 차단되면 강사에게 **오프라인 번들 이미지**를 요청하세요. 기본 태그 `0.0.4`은 첫 기동 때 인터넷에서 실습 이미지를 다운로드합니다. 오프라인 배포본의 제공 여부와 해당 환경의 검증 결과는 별도로 확인해야 합니다.
 
 참고: [Docker CA 인증서 안내](https://docs.docker.com/engine/network/ca-certs/)
