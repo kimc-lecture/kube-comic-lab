@@ -88,6 +88,6 @@ sudo docker run --rm hello-world
 
 서버 정보와 `Hello from Docker!`가 표시되면 준비됐습니다. 사내 CA가 필요한 경우에는 [CA 설정 안내](CORPORATE-CA.md)를 먼저 적용하세요.
 
-[README의 시작하기](README.md#시작하기) 또는 [전체 실행 안내](USER.md#2-처음-실행)로 돌아가 같은 Ubuntu 터미널에서 강의 이미지를 실행합니다. 브라우저는 Windows에서 열고 **http://localhost:7680**으로 접속합니다.
+[README의 시작하기](README.md#시작하기) 또는 [전체 실행 안내](USER.md#2-처음-실행)로 돌아가 같은 Ubuntu 터미널에서 강의 이미지를 실행합니다. 브라우저는 Windows에서 열고 **http://127.0.0.1:8085**으로 접속합니다.
 
 실습에는 Docker가 사용할 메모리 6GB 이상과 디스크 여유 25GB 이상이 필요합니다. WSL의 메모리 제한은 Windows 사용자 폴더의 `.wslconfig`로 조정할 수 있습니다. [Microsoft WSL 고급 설정](https://learn.microsoft.com/ko-kr/windows/wsl/wsl-config#configuration-settings-for-wslconfig)

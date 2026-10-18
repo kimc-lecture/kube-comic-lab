@@ -23,13 +23,13 @@ sudo docker pull "$IMAGE"
 sudo docker run -d --name kcna-lab --privileged --restart unless-stopped \
   -v kcna-lab-docker:/var/lib/docker \
   -v kcna-lab-home:/root \
-  -p 127.0.0.1:7680:7680 \
+  -p 127.0.0.1:8085:7680 \
   -p 127.0.0.1:7681:7681 \
   -p 127.0.0.1:30080-30083:30080-30083 \
   "$IMAGE"
 ```
 
-브라우저에서 **http://localhost:7680**을 엽니다. 최초 실행에서는 실습 이미지와 Ingress·metrics-server·Gitea·Argo CD를 한 번에 준비합니다. 인터넷이 필요하고 다운로드와 설치에 몇 분 걸릴 수 있습니다. 준비 완료 후에는 챕터를 열면 해당 과제의 파일·리소스가 자동으로 준비되므로 세팅 버튼을 따로 누르지 않습니다. 다음 실행부터는 저장된 캐시와 정상 공용 구성요소를 재사용합니다.
+브라우저에서 **http://127.0.0.1:8085**을 엽니다. 최초 실행에서는 실습 이미지와 Ingress·metrics-server·Gitea·Argo CD를 한 번에 준비합니다. 인터넷이 필요하고 다운로드와 설치에 몇 분 걸릴 수 있습니다. 준비 완료 후에는 챕터를 열면 해당 과제의 파일·리소스가 자동으로 준비되므로 세팅 버튼을 따로 누르지 않습니다. 다음 실행부터는 저장된 캐시와 정상 공용 구성요소를 재사용합니다.
 
 `--privileged`는 내부 실습 클러스터 실행에 필요합니다. 웹 터미널은 인증 없는 root 셸이므로 포트는 위 예제처럼 **127.0.0.1에 바인딩**해서 사용하세요.
 
@@ -42,6 +42,33 @@ sudo docker run -d --name kcna-lab --privileged --restart unless-stopped \
 ```
 
 이미 같은 이름의 컨테이너가 있으면 `docker run`을 반복하지 말고 아래 다시 시작 명령을 사용하세요.
+
+### 기존 7680 포트를 8085로 바꾸기
+
+외부 접속은 **8085**, 컨테이너 내부 포털은 **7680**을 사용합니다. 이미지 재빌드는 필요 없습니다. Docker 포트 연결 방식은 [공식 포트 게시 안내](https://docs.docker.com/engine/network/port-publishing/)를 참고하세요.
+
+기존 컨테이너의 포트 변경에는 컨테이너 교체가 필요합니다. 먼저 기존 볼륨·CA·프록시 설정을 확인합니다.
+
+```bash
+sudo docker inspect kcna-lab --format '{{json .Mounts}}'
+```
+
+위 처음 실행 예제처럼 `kcna-lab-home`이 `/root`에, `kcna-lab-docker`가 `/var/lib/docker`에 연결된 경우:
+
+```bash
+sudo docker stop -t 30 kcna-lab
+sudo docker rm kcna-lab
+```
+
+이후 위 **2. 처음 실행**의 `docker run`을 새 포트 설정으로 실행합니다. 기존 사내 CA 마운트와 프록시·미러 옵션도 그대로 추가합니다. 다른 볼륨 이름이나 경로를 썼다면 기존 설정을 유지하세요. 볼륨은 삭제하지 않습니다.
+
+Windows 브라우저에서 **http://127.0.0.1:8085/**를 엽니다. PowerShell에서 확인하려면:
+
+```powershell
+curl.exe --noproxy "*" -v --max-time 5 http://127.0.0.1:8085/
+```
+
+포트 변경은 기존 7680 포트의 충돌·전달 문제를 구분하기 위한 방법입니다. 포털 서버 자체가 멈췄거나 클러스터가 실패한 경우에는 별도 진단이 필요합니다.
 
 ## 3. 종료·다시 실행·재시작
 

@@ -57,7 +57,7 @@ sudo docker run -d --name kcna-lab --privileged --restart unless-stopped \
   --mount type=bind,src="$HOME/certs",dst=/certs,readonly \
   -v kcna-lab-docker:/var/lib/docker \
   -v kcna-lab-home:/root \
-  -p 127.0.0.1:7680:7680 \
+  -p 127.0.0.1:8085:7680 \
   -p 127.0.0.1:7681:7681 \
   -p 127.0.0.1:30080-30083:30080-30083 \
   kimc1992/kube-comic-lab:0.0.1
@@ -81,7 +81,7 @@ sudo docker logs kcna-lab 2>&1 | grep '사내 CA'
 sudo docker exec kcna-lab tail -50 /var/log/kcna/provision.log
 ```
 
-`사내 CA N개 등록` 메시지와 최종 준비 완료를 확인합니다. 브라우저에서 **http://localhost:7680**을 엽니다.
+`사내 CA N개 등록` 메시지와 최종 준비 완료를 확인합니다. 브라우저에서 **http://127.0.0.1:8085**을 엽니다.
 
 ## 5. CA를 넣어도 다운로드가 안 되면
 

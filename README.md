@@ -25,15 +25,17 @@ sudo docker pull kimc1992/kube-comic-lab:0.0.1
 sudo docker run -d --name kcna-lab --privileged --restart unless-stopped \
   -v kcna-lab-docker:/var/lib/docker \
   -v kcna-lab-home:/root \
-  -p 127.0.0.1:7680:7680 \
+  -p 127.0.0.1:8085:7680 \
   -p 127.0.0.1:7681:7681 \
   -p 127.0.0.1:30080-30083:30080-30083 \
   kimc1992/kube-comic-lab:0.0.1
 ```
 
-브라우저에서 **http://localhost:7680**을 엽니다. 처음에는 클러스터와 공용 환경 준비에 몇 분 걸립니다. `클러스터 Ready`가 표시되면 첫 챕터부터 시작하세요. 챕터별 과제는 자동으로 준비됩니다.
+브라우저에서 **http://127.0.0.1:8085**을 엽니다. 처음에는 클러스터와 공용 환경 준비에 몇 분 걸립니다. `클러스터 Ready`가 표시되면 첫 챕터부터 시작하세요. 챕터별 과제는 자동으로 준비됩니다.
 
 내부 실습 클러스터 실행을 위해 `--privileged`가 필요합니다. 웹 터미널에는 별도 인증이 없으므로 예제처럼 포트를 `127.0.0.1`에 바인딩해 개인 PC에서 사용하세요.
+
+기존 7680 포트로 실행했다면 [포트 변경 안내](USER.md#기존-7680-포트를-8085로-바꾸기)에 따라 컨테이너를 교체하세요. **외부 8085 → 내부 7680**으로 연결하며, 기존 볼륨과 사내 CA·프록시 설정을 유지합니다.
 
 ## 종료와 다시 실행
 
@@ -73,7 +75,7 @@ sudo docker image rm kimc1992/kube-comic-lab:0.0.1
 
 | 서비스 | 주소 |
 |---|---|
-| 강의 포털 | http://localhost:7680 |
+| 강의 포털 | http://127.0.0.1:8085 |
 | Argo CD | http://localhost:30081 |
 | Gitea | http://localhost:30082 |
 
